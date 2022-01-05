@@ -23,7 +23,6 @@ typedef Widget AnimatedSingleWidgetBuilder(
 
 /// 单个包装的字符/数字依赖配置数据源
 class SingleDigitData {
-
   /// 单个字符容器尺寸大小。
   /// 如果为 null，则以数字 `0` 为字体宽高标准计算得到。
   ///
@@ -55,7 +54,6 @@ class SingleDigitData {
 
 /// The [SingleDigitData] `DI` provider widget
 class SingleDigitProvider extends InheritedWidget {
-  
   /// The [SingleDigitData] `DI` provider widget
   const SingleDigitProvider({
     Key? key,
@@ -362,15 +360,15 @@ class _AnimatedDigitWidgetState extends State<AnimatedDigitWidget>
   SingleDigitData? _singleDigitData;
 
   /// mark dirty, rebuild widget
-  /// 
-  /// 当触发以下回调时 
+  ///
+  /// 当触发以下回调时
   /// [reassemble],
   /// [didChangeDependencies],
   /// [didChangeTextScaleFactor]
   /// [didChangeAccessibilityFeatures],
   /// 将需要被重建，
   /// 会通过 [_markNeedRebuild] 变更成 `true`，
-  /// 
+  ///
   /// 在 [build] 完成时，恢复为 `false`, 以待下次重建
   bool _dirty = false;
 
@@ -635,7 +633,7 @@ class _AnimatedSingleWidgetState extends State<_AnimatedSingleWidget> {
   late final ScrollController scrollController = ScrollController();
 
   /// 当前值(数字、符号、给定 [SingleDigitData.size])的尺寸大小
-  Size valueSize = Size.zero;
+  Size get valueSize => _initSize();
 
   /// 每次需要滚动的距离，由 [_computeScrollOffset] 计算得到
   double scrollOffset = 0.0;
@@ -682,12 +680,12 @@ class _AnimatedSingleWidgetState extends State<_AnimatedSingleWidget> {
   Size _initSize() {
     if (widget.singleDigitData != null) {
       if (widget.singleDigitData!.size != null && data!.useTextSize) {
-        return valueSize = widget.singleDigitData!.size!;
+        return widget.singleDigitData!.size!;
       }
     }
     // ## why use "0"? ##
     // github：https://github.com/mingsnx/animated_digit/pull/3#issuecomment-1005552717
-    return valueSize = _getTextSize(isNumber ? "0" : currentValue);
+    return _getTextSize(currentValue);
   }
 
   /// 获取 [text] 的 Size
